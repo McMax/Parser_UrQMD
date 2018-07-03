@@ -8,8 +8,23 @@
 
 using namespace std;
 
-int main()
+int main(int argc, char** argv)
 {
+	TString inputfile_path, outputfile_path;
+
+	if(argc != 3)
+	{
+		inputfile_path = "outputfile";
+		outputfile_path = "ParticleTree.root";
+	}
+	else
+	{
+		inputfile_path = argv[1];
+		outputfile_path = argv[2];
+	}
+
+	cout << "Reading from file: " << inputfile_path << " and writing out to file: " << outputfile_path << endl;
+
 	bool verbose = false;
 	bool debug = false;
 	string line, check;
@@ -20,8 +35,8 @@ int main()
 	short ch;
 	unsigned int nPa, iter, event_no=0, skipped=0;
 
-	ParticleTree particletree("ParticleTree.root");
-	ifstream inputfile("outputfile",ifstream::in);
+	ifstream inputfile(inputfile_path,ifstream::in);
+	ParticleTree particletree(outputfile_path);
 
 	while(true)
 	{
