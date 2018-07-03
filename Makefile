@@ -8,7 +8,7 @@ OBJ_DIR = $(TOPDIR)
 CCFLAGS = -g -O0 `root-config --cflags` -Wall -I$(PEV_INC)
 LDFLAGS = -g -O0 `root-config --libs` -Wall -L$(OBJ_DIR) -I$(PEV_LIB)
 
-PEV_DIR = $(TOPDIR)/../Particle_Event
+PEV_DIR = $(TOPDIR)/../Particle_Event_GENBOD
 PEV_LIB = $(PEV_DIR)/lib
 PEV_SRC = $(PEV_DIR)/src
 PEV_INC = $(PEV_DIR)/inc

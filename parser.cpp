@@ -1,7 +1,9 @@
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <string>
 
+#include "TMath.h"
 #include "ParticleTree.h"
 
 using namespace std;
@@ -9,16 +11,17 @@ using namespace std;
 int main()
 {
 	bool verbose = false;
+	bool debug = false;
 	string line, check;
 	string thrash;
-	int event_read, nPa, a1, a2, a3;
+	int event_read, a1, a2, a3;
 	float r, E, px, py, pz, m;
 	int id;
 	short ch;
-	unsigned int iter, event_no=0, skipped=0;
+	unsigned int nPa, iter, event_no=0, skipped=0;
 
-	ParticleTree particletree("ParticleTree_UrQMD_158.root");
-	ifstream inputfile("outputfile_pp158",ifstream::in);
+	ParticleTree particletree("ParticleTree.root");
+	ifstream inputfile("outputfile",ifstream::in);
 
 	while(true)
 	{
@@ -63,11 +66,11 @@ int main()
 			cout << "Event#: " << event_no << " | Event read: " << event_read << endl;
 
 		//Skip 9 lines
-		for(int i=0; i<9; i++)
-			getline(inputfile, line);
-		//Skip 12 lines
-		//for(int i=0; i<12; i++)
+		//for(int i=0; i<9; i++)
 		//	getline(inputfile, line);
+		//Skip 12 lines
+		for(int i=0; i<12; i++)
+			getline(inputfile, line);
 
 		inputfile >> nPa >> thrash;
 		if(verbose)
@@ -79,17 +82,21 @@ int main()
 		if(verbose)
 			cout << "a1: " << a1 << " a2: " << a2 << " a3: " << a3 << endl;
 
-		if((a1==0) || (a3==0) || (nPa <= 2))
-		{
-			cout << "Wrong event " << event_no << endl << "a1=" << a1 << " a3=" << a3 << " npart=" << nPa << endl << "Skipping" << endl;
-			++skipped;
+		//if((a1==0) || (a3==0) || (nPa <= 16))
+		//{
+		//	//cout << "Wrong event " << event_no << endl << "a1=" << a1 << " a3=" << a3 << " npart=" << nPa << endl << "Skipping" << endl;
+		//	++skipped;
+		//	if(debug)
+		//		cout << event_no << " 0" << endl;
 
-			for(iter=0; iter<nPa; iter++)
-				getline(inputfile, line);
-		}
-		else
+		//	for(iter=0; iter<nPa; iter++)
+		//		getline(inputfile, line);
+		//}
+		//else
 		{
 			particletree.BeginEvent();
+			if(debug)
+				cout << event_no << " " << nPa << endl;
 
 			for(iter=0; iter<nPa; iter++)
 			{
@@ -97,7 +104,11 @@ int main()
 				getline(inputfile, line);
 
 				if(ch!=0)
-				particletree.AddParticle(ch,0,0,px,py,pz,0,0,0,0,0,0,0,0,m);
+				{
+					particletree.AddParticle(id,ch,px,py,pz,m);
+					if(debug)
+						cout << (iter+1) << " " << id << " " << ch << " " << setprecision(4) << px << " " << py << " " << pz << endl;
+				}
 
 				if(verbose)
 					cout << "Particle " << iter << ":" << endl << "E=" << E << " px=" << px << " py=" << py << " pz=" << pz << " m=" << m << " id=" << id << " ch=" << ch << endl;
@@ -115,5 +126,5 @@ int main()
 	if(skipped>0)
 		cout << "Events skipped: " << skipped << endl;
 
-	return 1;
+	return 0;
 }
