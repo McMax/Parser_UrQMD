@@ -5,15 +5,15 @@ TOPDIR = .
 SRC_DIR = $(TOPDIR)
 OBJ_DIR = $(TOPDIR)
 
-CCFLAGS = -g -O0 `root-config --cflags` -Wall -I$(PEV_INC)
-LDFLAGS = -g -O0 `root-config --libs` -Wall -L$(OBJ_DIR) -I$(PEV_LIB)
+CCFLAGS = -O3 `root-config --cflags` -Wall -I$(PEV_INC)
+LDFLAGS = -O3 `root-config --libs` -Wall -L$(OBJ_DIR) -I$(PEV_LIB)
 
 PEV_DIR = $(TOPDIR)/../Particle_Event_GENBOD
 PEV_LIB = $(PEV_DIR)/lib
 PEV_SRC = $(PEV_DIR)/src
 PEV_INC = $(PEV_DIR)/inc
 
-PROGRAM = urqmd_parser
+PROGRAM = urqmd_parser cleaner
 
 SOURCES := $(shell find $(SRC_DIR) -type f -name "*.cpp")
 OBJECTS := $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SOURCES))
@@ -21,12 +21,14 @@ PEV_OBJECTS = $(PEV_LIB)/Particle.o $(PEV_LIB)/Event.o $(PEV_LIB)/ParticleTree.o
 
 all: $(PROGRAM)
 
-$(PROGRAM): $(OBJECTS) $(PEV_OBJECTS)
+urqmd_parser: urqmd_parser.o $(PEV_OBJECTS)
 	$(LD) -o $@ $^ $(LDFLAGS)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
-	mkdir -p $(OBJ_DIR)
+urqmd_parser.o: parser.cpp
 	$(CC) -c $(CCFLAGS) $< -o $@ 
+
+cleaner: cleaner.cpp
+	$(CC) -Wall -O3 -o $@ $<
 
 $(PEV_OBJECTS):
 	@echo "No base libs. Create them"
