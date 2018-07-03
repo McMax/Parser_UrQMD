@@ -103,12 +103,9 @@ int main()
 				inputfile >> r >> r >> r >> r >> E >> px >> py >> pz >> m >> id >> r >> ch;
 				getline(inputfile, line);
 
-				if(ch!=0)
-				{
-					particletree.AddParticle(id,ch,px,py,pz,m);
-					if(debug)
-						cout << (iter+1) << " " << id << " " << ch << " " << setprecision(4) << px << " " << py << " " << pz << endl;
-				}
+				particletree.AddParticle(id,ch,px,py,pz,m);
+				if(debug)
+					cout << (iter+1) << " " << id << " " << ch << " " << setprecision(4) << px << " " << py << " " << pz << endl;
 
 				if(verbose)
 					cout << "Particle " << iter << ":" << endl << "E=" << E << " px=" << px << " py=" << py << " pz=" << pz << " m=" << m << " id=" << id << " ch=" << ch << endl;
