@@ -1,12 +1,13 @@
 CC	= g++
 LD	= g++
 
+CCFLAGS = -O3 `root-config --cflags` -Wall -I$(PEV_INC)
+LDFLAGS = -O3 `root-config --libs` -Wall -L$(OBJ_DIR) -I$(PEV_LIB)
+
 TOPDIR = .
 SRC_DIR = $(TOPDIR)
 OBJ_DIR = $(TOPDIR)
 
-CCFLAGS = -O3 `root-config --cflags` -Wall -I$(PEV_INC)
-LDFLAGS = -O3 `root-config --libs` -Wall -L$(OBJ_DIR) -I$(PEV_LIB)
 
 PEV_DIR = $(TOPDIR)/../Particle_Event_GENBOD
 PEV_LIB = $(PEV_DIR)/lib
