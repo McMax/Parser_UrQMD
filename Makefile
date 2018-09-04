@@ -14,7 +14,7 @@ PEV_LIB = $(PEV_DIR)/lib
 PEV_SRC = $(PEV_DIR)/src
 PEV_INC = $(PEV_DIR)/inc
 
-PROGRAM = urqmd_parser cleaner
+PROGRAM = urqmd_parser cleaner cleaner_bad_events
 
 SOURCES := $(shell find $(SRC_DIR) -type f -name "*.cpp")
 OBJECTS := $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SOURCES))
@@ -29,6 +29,9 @@ urqmd_parser.o: parser.cpp
 	$(CC) -c $(CCFLAGS) $< -o $@ 
 
 cleaner: cleaner.cpp
+	$(CC) -Wall -O3 -o $@ $<
+
+cleaner_bad_events: remove_bad_events.cpp
 	$(CC) -Wall -O3 -o $@ $<
 
 $(PEV_OBJECTS):
