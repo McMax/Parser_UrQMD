@@ -90,7 +90,7 @@ int main(int argc, char** argv)
 		ss << templine;
 		ss >> mult;
 
-		if(mult == elastic_multiplicity)	//If elastic (i.e. no new particles produced)
+		if(mult == elastic_multiplicity)	//If elastic (i.e. no new particles produced), we don't want it
 		{
 			//Skip collisions line and 16 next lines with particles
 			for(i=0;i<17;i++)
@@ -102,7 +102,7 @@ int main(int argc, char** argv)
 			continue;
 		}
 		
-		//If we are here, then the event is elastic
+		//If we are here, then the event is inelastic (we want it!)
 		//Writing event header from buffer and multiplicity line residing in "templine"
 		file_output << buffer << templine << endl;
 
